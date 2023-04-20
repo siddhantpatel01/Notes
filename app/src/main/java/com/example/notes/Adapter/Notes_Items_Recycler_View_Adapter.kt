@@ -23,10 +23,11 @@ class Notes_Items_Recycler_View_Adapter(val context:Context , val listner : iNot
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
         val viewholder = NotesViewHolder(LayoutInflater.from(context).inflate(R.layout.notes_items,parent,false))
 
-        viewholder.
-        return viewholder.delete_Button.setOnClickListener {
-            listner.OnItemClicked(allnotes[])
+
+         viewholder.delete_Button.setOnClickListener {
+            listner.OnItemClicked(allnotes[viewholder.adapterPosition])
         }
+        return viewholder
     }
 
     override fun getItemCount(): Int {
