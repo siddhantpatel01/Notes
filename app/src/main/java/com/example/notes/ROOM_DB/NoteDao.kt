@@ -5,14 +5,13 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 
 @Dao
 interface NoteDao {
-
     @Insert(onConflict = REPLACE)
-    suspend fun insert(notes: Notes)
+    suspend fun insert( notes: Notes)
 
     @Delete
     suspend fun delete(notes: Notes)

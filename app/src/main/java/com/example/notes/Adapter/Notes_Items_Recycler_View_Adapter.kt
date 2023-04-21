@@ -35,7 +35,15 @@ class Notes_Items_Recycler_View_Adapter(val context:Context , val listner : iNot
     }
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val currentnote = allnotes[position]
+        holder.textview.text = currentnote.text
+
+    }
+       fun updateList(updatedList : List<Notes>){
+        allnotes.clear()
+        allnotes.addAll(updatedList)
+
+        notifyDataSetChanged()
     }
 }
 

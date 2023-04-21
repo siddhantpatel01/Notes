@@ -5,7 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Notes(@ColumnInfo(name = "text") val text : String) {
-    @PrimaryKey(autoGenerate = true) var id =0
+data class Notes(
+    @ColumnInfo(name = "text")
+    val text : String,
 
-}
+    @PrimaryKey(autoGenerate = true)
+    var id: Int =0
+)
