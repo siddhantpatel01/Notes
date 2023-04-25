@@ -1,7 +1,9 @@
 package com.example.notes.Adapter
 
 import android.content.Context
+import android.view.ContextMenu
 import android.view.LayoutInflater
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -24,9 +26,10 @@ class Notes_Items_Recycler_View_Adapter(val context:Context , val listner : iNot
         val viewholder = NotesViewHolder(LayoutInflater.from(context).inflate(R.layout.notes_items,parent,false))
 
 
-         viewholder.delete_Button.setOnClickListener {
+         viewholder.delete_Button.setOnClickListener {/*delete notes */
             listner.OnItemClicked(allnotes[viewholder.adapterPosition])
         }
+
         return viewholder
     }
 
@@ -39,6 +42,9 @@ class Notes_Items_Recycler_View_Adapter(val context:Context , val listner : iNot
         holder.textview.text = currentnote.text
 
     }
+
+
+
        fun updateList(updatedList : List<Notes>){
         allnotes.clear()
         allnotes.addAll(updatedList)
