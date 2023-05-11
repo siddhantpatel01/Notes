@@ -30,8 +30,9 @@ class Notes_layout_Activity : AppCompatActivity() {
 
     fun saveData(view: View) {  // this is a save method and on click method in xml layout
         val noteText = binding.notesField.text.toString()  //  getting the data from view
+        val noteTitle = binding.title.text.toString()
         if(noteText.isNotEmpty()){
-            viewModel.insertNote(Notes(noteText))  // insert the data in room db
+            viewModel.insertNote(Notes(noteText,noteTitle))  // insert the data in room db
             Toast.makeText(this, "Inserted Successfully", Toast.LENGTH_SHORT).show()  // display toast
             finish()// to finish activity
         }

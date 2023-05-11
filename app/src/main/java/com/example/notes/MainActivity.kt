@@ -73,8 +73,8 @@ class MainActivity : AppCompatActivity(), iNotesRVAdapter {
     }
 
     private fun setRecyclerview() {
-//        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerViewItems.layoutManager = GridLayoutManager(this, 2)
+        //binding.recyclerViewItems.layoutManager = LinearLayoutManager(this)
+        //binding.recyclerViewItems.layoutManager = GridLayoutManager(this, 2)
         binding.recyclerViewItems.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         myAdapter = Notes_Items_Recycler_View_Adapter(this, this)
         binding.recyclerViewItems.adapter = myAdapter
