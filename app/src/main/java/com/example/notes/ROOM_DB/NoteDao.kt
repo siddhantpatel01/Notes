@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface NoteDao {
@@ -19,5 +20,7 @@ interface NoteDao {
     @Query("Select * from notes order by id ASC")
      fun getAllNotes(): LiveData<List<Notes>>  // make live data to observe changes in list
 
+     @Update
+     suspend fun update(notes: Notes)
 
 }

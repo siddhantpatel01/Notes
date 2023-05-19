@@ -22,8 +22,12 @@ class RoomViewModel(application: Application) :AndroidViewModel(application) {
     fun deleteNote(notes: Notes) = viewModelScope.launch(Dispatchers.IO){
         repository.delete(notes)
     }
+
     fun insertNote(notes: Notes) = viewModelScope.launch(Dispatchers.IO){
         repository.insert(notes)
+    }
+    fun updateNote(notes: Notes) = viewModelScope.launch(Dispatchers.IO){
+        repository.
     }
 
 }

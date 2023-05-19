@@ -31,17 +31,13 @@ class Notes_Items_Recycler_View_Adapter(val context: Context, val listner: iNote
         }
         return viewholder
     }
-
     override fun getItemCount(): Int {
         return allnotes.size
     }
-
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val currentnote = allnotes[position]
         holder.textview.text = currentnote.text
         holder.titless.text = currentnote.title
-
-
     }
 
 
