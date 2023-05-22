@@ -1,6 +1,5 @@
-package com.example.notes.Rapo
+package com.example.notes.repository
 
-import android.provider.ContactsContract.CommonDataKinds.Note
 import androidx.lifecycle.LiveData
 import com.example.notes.ROOM_DB.NoteDao
 import com.example.notes.ROOM_DB.Notes

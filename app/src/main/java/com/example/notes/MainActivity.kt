@@ -1,44 +1,36 @@
 package com.example.notes
-
 import android.content.Intent
 import android.os.Bundle
-import android.view.ContextMenu
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
+
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import android.widget.PopupMenu
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.notes.Adapter.Notes_Items_Recycler_View_Adapter
-import com.example.notes.Adapter.iNotesRVAdapter
+import com.example.notes.adapter.Notes_Items_Recycler_View_Adapter
+import com.example.notes.adapter.iNotesRVAdapter
 import com.example.notes.ROOM_DB.Notes
 import com.example.notes.ViewModel.RoomViewModel
 import com.example.notes.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), iNotesRVAdapter {
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
+class MainActivity : AppCompatActivity(), iNotesRVAdapter,  PopupMenu.OnMenuItemClickListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: RoomViewModel
     private lateinit var myAdapter: Notes_Items_Recycler_View_Adapter
+    lateinit var  note:Notes
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
 
         viewModel = ViewModelProvider(
             this,
@@ -51,50 +43,106 @@ class MainActivity : AppCompatActivity(), iNotesRVAdapter {
             }
         })
 
-        window.decorView.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR//  set status text dark
-        window.statusBarColor =
-            ContextCompat.getColor(this, R.color.white)// set status background white
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
 
         setSupportActionBar(binding.toolbar)
-
         setRecyclerview()
 
-
-        binding.fab.setOnClickListener { view ->
+        binding.fab.setOnClickListener {
             startActivity(Intent(this, Notes_layout_Activity::class.java))
         }
+
+
+       /* binding.searchBar.setOnSearchActionListener(object : SearchBar.OnSearchActionListener {
+            override fun onSearchStateChanged(enabled: Boolean) {
+                // Handle search state change
+            }
+
+            override fun onSearchConfirmed(text: CharSequence?) {
+                // Handle search query submission
+            }
+
+            override fun onButtonClicked(buttonCode: Int) {
+                // Handle search bar button clicks
+            }
+        })
+
+
+        binding.searchBar.addTextChangeListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used in this example
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Handle search query text change
+                performSearch(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Not used in this example
+            }
+
+            override fun onQueryTextSubmit(query: String?) {
+                // Handle search query submission
+                performSearch(query.orEmpty())
+            }
+        })*/
+    }
+
+    private fun performSearch(query: String) {
+        // Implement your search logic here
+        // You can perform a network request, query a local database, etc.
+        // Display the search results in your UI
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     private fun setRecyclerview() {
-        //binding.recyclerViewItems.layoutManager = LinearLayoutManager(this)
-        //binding.recyclerViewItems.layoutManager = GridLayoutManager(this, 2)
-        binding.recyclerViewItems.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        binding.recyclerViewItems.layoutManager =
+            StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         myAdapter = Notes_Items_Recycler_View_Adapter(this, this)
         binding.recyclerViewItems.adapter = myAdapter
-        myAdapter.notifyDataSetChanged()
-
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.action_settings -> {
+                // Handle settings menu item click
+                return true
+            }
         }
+        return super.onOptionsItemSelected(item)
     }
 
-    override fun OnItemClicked(notes: Notes) {
-        viewModel.deleteNote(notes)
-        Toast.makeText(this, "Delete Successfully", Toast.LENGTH_SHORT).show()
+    override fun OnItemClicked(notes: Notes, cardview: CardView) {
+        contextmenu(cardview)
+        note= notes
+
     }
+
+    private fun contextmenu(cardview: CardView) {
+        val contextmenu = PopupMenu(this,cardview)
+        contextmenu.setOnMenuItemClickListener(this)
+        contextmenu.inflate(R.menu.deleteitem)
+        contextmenu.show()
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+       if(item?.itemId==R.id.delete){
+           viewModel.deleteNote(note)
+           return true
+       }
+        return false
+    }
+
+//    override fun OnItemClicked(notes: Notes) {
+//        viewModel.deleteNote(notes)
+//    }
 }
+
+

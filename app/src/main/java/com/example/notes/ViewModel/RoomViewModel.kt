@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.notes.ROOM_DB.Notes
 import com.example.notes.ROOM_DB.myDatabase
-import com.example.notes.Rapo.NoteRepo
+import com.example.notes.repository.NoteRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -27,7 +27,10 @@ class RoomViewModel(application: Application) :AndroidViewModel(application) {
         repository.insert(notes)
     }
     fun updateNote(notes: Notes) = viewModelScope.launch(Dispatchers.IO){
-        repository.
+        repository.updateNotes(notes)
     }
 
+    fun allNotes(notes: String?) {
+        repository.allNotes
+    }
 }
